@@ -24,6 +24,7 @@ methods proposed by a data model.
 
 __all__ = ['Model']
 
+import odoorpc
 import sys
 
 from odoorpc import error
@@ -352,6 +353,9 @@ class Model(BaseModel):
         # Get basic fields (no relational ones)
         basic_fields = []
         for field_name in self._columns:
+            if(field_name == 'name' and isinstance(self._columns['name'],
+                odoorpc.fields.Text)):
+                continue
             field = self._columns[field_name]
             if not getattr(field, 'relation', False):
                 basic_fields.append(field_name)
